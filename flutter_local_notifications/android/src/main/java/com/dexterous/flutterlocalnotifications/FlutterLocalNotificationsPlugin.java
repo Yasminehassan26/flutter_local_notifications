@@ -27,7 +27,11 @@ import android.text.Spanned;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
-import androidx.core.app.*;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.AlarmManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.Person;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.IconCompat;
 
@@ -175,19 +179,19 @@ public class FlutterLocalNotificationsPlugin
 
   static void rescheduleNotifications(Context context) {
     initAndroidThreeTen(context);
-    ArrayList<NotificationDetails> scheduledNotifications = loadScheduledNotifications(context);
-    for (NotificationDetails scheduledNotification : scheduledNotifications) {
-      if (scheduledNotification.repeatInterval == null) {
-        if (scheduledNotification.timeZoneName == null) {
-          scheduleNotification(context, scheduledNotification, false);
-        } else {
-          zonedScheduleNotification(context, scheduledNotification, false);
-        }
-      } else {
-        repeatNotification(context, scheduledNotification, false);
-      }
-    }
-  }
+    // ArrayList<NotificationDetails> scheduledNotifications = loadScheduledNotifications(context);
+    // for (NotificationDetails scheduledNotification : scheduledNotifications) {
+    //   if (scheduledNotification.repeatInterval == null) {
+    //     if (scheduledNotification.timeZoneName == null) {
+    //       scheduleNotification(context, scheduledNotification, false);
+    //     } else {
+    //       zonedScheduleNotification(context, scheduledNotification, false);
+    //     }
+    //   } else {
+    //     repeatNotification(context, scheduledNotification, false);
+    //   }
+    // }
+ }
 
   private static void initAndroidThreeTen(Context context) {
     if (VERSION.SDK_INT < VERSION_CODES.O) {
