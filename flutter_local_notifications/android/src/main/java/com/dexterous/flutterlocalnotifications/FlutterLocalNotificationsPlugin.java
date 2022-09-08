@@ -179,18 +179,18 @@ public class FlutterLocalNotificationsPlugin
 
   static void rescheduleNotifications(Context context) {
     initAndroidThreeTen(context);
-    // ArrayList<NotificationDetails> scheduledNotifications = loadScheduledNotifications(context);
-    // for (NotificationDetails scheduledNotification : scheduledNotifications) {
-    //   if (scheduledNotification.repeatInterval == null) {
-    //     if (scheduledNotification.timeZoneName == null) {
-    //       scheduleNotification(context, scheduledNotification, false);
-    //     } else {
-    //       zonedScheduleNotification(context, scheduledNotification, false);
-    //     }
-    //   } else {
-    //     repeatNotification(context, scheduledNotification, false);
-    //   }
-    // }
+    ArrayList<NotificationDetails> scheduledNotifications = loadScheduledNotifications(context);
+    for (NotificationDetails scheduledNotification : scheduledNotifications) {
+      if (scheduledNotification.repeatInterval == null) {
+        if (scheduledNotification.timeZoneName == null) {
+          scheduleNotification(context, scheduledNotification, false);
+        } else {
+          zonedScheduleNotification(context, scheduledNotification, false);
+        }
+      } else {
+        repeatNotification(context, scheduledNotification, false);
+      }
+    }
  }
 
   private static void initAndroidThreeTen(Context context) {
@@ -361,6 +361,13 @@ public class FlutterLocalNotificationsPlugin
       Type type = new TypeToken<ArrayList<NotificationDetails>>() {}.getType();
       scheduledNotifications = gson.fromJson(json, type);
     }
+    // for (Iterator<NotificationDetails> it = scheduledNotifications.iterator(); it.hasNext(); ) {
+    //   NotificationDetails notificationDetails = it.next();
+    //   if (notificationDetails.tim) {
+    //     it.remove();
+    //     break;
+    //   }
+    // }
     return scheduledNotifications;
   }
 
