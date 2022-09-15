@@ -179,6 +179,8 @@ public class FlutterLocalNotificationsPlugin
 
   static void rescheduleNotifications(Context context) {
     initAndroidThreeTen(context);
+
+
     ArrayList<NotificationDetails> scheduledNotifications = loadScheduledNotifications(context);
     for (NotificationDetails scheduledNotification : scheduledNotifications) {
       if (scheduledNotification.repeatInterval == null) {
