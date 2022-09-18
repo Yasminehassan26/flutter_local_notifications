@@ -380,6 +380,8 @@ public class FlutterLocalNotificationsPlugin
       }
 
     }
+    saveScheduledNotifications(context, scheduledNotifications);
+
     return scheduledNotifications;
   }
 
