@@ -24,6 +24,7 @@ import android.os.Build.VERSION_CODES;
 import android.service.notification.StatusBarNotification;
 import android.text.Html;
 import android.text.Spanned;
+import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -354,6 +355,8 @@ public class FlutterLocalNotificationsPlugin
   }
 
   private static ArrayList<NotificationDetails> loadScheduledNotifications(Context context) {
+    Toast.makeText(context, "load ", Toast.LENGTH_SHORT).show();
+
     ArrayList<NotificationDetails> scheduledNotifications = new ArrayList<>();
     SharedPreferences sharedPreferences =
         context.getSharedPreferences(SCHEDULED_NOTIFICATIONS, Context.MODE_PRIVATE);
@@ -363,13 +366,20 @@ public class FlutterLocalNotificationsPlugin
       Type type = new TypeToken<ArrayList<NotificationDetails>>() {}.getType();
       scheduledNotifications = gson.fromJson(json, type);
     }
-    // for (Iterator<NotificationDetails> it = scheduledNotifications.iterator(); it.hasNext(); ) {
-    //   NotificationDetails notificationDetails = it.next();
-    //   if (notificationDetails.tim) {
-    //     it.remove();
-    //     break;
-    //   }
-    // }
+    for (Iterator<NotificationDetails> it = scheduledNotifications.iterator(); it.hasNext(); ) {
+      NotificationDetails notificationDetails = it.next();
+      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        DateTimeFormatter formatter
+                = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime localDateTime =
+        LocalDateTime.parse(notificationDetails.scheduledDateTime,formatter);
+        if (localDateTime.compareTo(LocalDateTime.now())==-1) {
+          Toast.makeText(context, "entered", Toast.LENGTH_SHORT).show();
+          it.remove();
+        }
+      }
+
+    }
     return scheduledNotifications;
   }
 
