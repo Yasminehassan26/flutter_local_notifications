@@ -355,7 +355,7 @@ public class FlutterLocalNotificationsPlugin
   }
 
   private static ArrayList<NotificationDetails> loadScheduledNotifications(Context context) {
-    Toast.makeText(context, "load ", Toast.LENGTH_SHORT).show();
+//    Toast.makeText(context, "load ", Toast.LENGTH_SHORT).show();
 
     ArrayList<NotificationDetails> scheduledNotifications = new ArrayList<>();
     SharedPreferences sharedPreferences =
