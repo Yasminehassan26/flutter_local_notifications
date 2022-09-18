@@ -376,11 +376,13 @@ public class FlutterLocalNotificationsPlugin
         if (localDateTime.compareTo(LocalDateTime.now())==-1) {
           Toast.makeText(context, "entered", Toast.LENGTH_SHORT).show();
           it.remove();
+          saveScheduledNotifications(context, scheduledNotifications);
+          Toast.makeText(context, "saved", Toast.LENGTH_SHORT).show();
+
         }
       }
 
     }
-    saveScheduledNotifications(context, scheduledNotifications);
 
     return scheduledNotifications;
   }
