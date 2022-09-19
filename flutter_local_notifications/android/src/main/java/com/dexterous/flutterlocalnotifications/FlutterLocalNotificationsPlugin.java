@@ -181,6 +181,7 @@ public class FlutterLocalNotificationsPlugin
   static void rescheduleNotifications(Context context) {
     initAndroidThreeTen(context);
 
+    Toast.makeText(context, "res ", Toast.LENGTH_SHORT).show();
 
     ArrayList<NotificationDetails> scheduledNotifications = loadScheduledNotifications(context);
     for (NotificationDetails scheduledNotification : scheduledNotifications) {
@@ -355,7 +356,7 @@ public class FlutterLocalNotificationsPlugin
   }
 
   private static ArrayList<NotificationDetails> loadScheduledNotifications(Context context) {
-//    Toast.makeText(context, "load ", Toast.LENGTH_SHORT).show();
+    Toast.makeText(context, "load ", Toast.LENGTH_SHORT).show();
 
     ArrayList<NotificationDetails> scheduledNotifications = new ArrayList<>();
     SharedPreferences sharedPreferences =
@@ -366,23 +367,7 @@ public class FlutterLocalNotificationsPlugin
       Type type = new TypeToken<ArrayList<NotificationDetails>>() {}.getType();
       scheduledNotifications = gson.fromJson(json, type);
     }
-    for (Iterator<NotificationDetails> it = scheduledNotifications.iterator(); it.hasNext(); ) {
-      NotificationDetails notificationDetails = it.next();
-      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-        DateTimeFormatter formatter
-                = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-        LocalDateTime localDateTime =
-        LocalDateTime.parse(notificationDetails.scheduledDateTime,formatter);
-        if (localDateTime.compareTo(LocalDateTime.now())==-1) {
-          Toast.makeText(context, "entered", Toast.LENGTH_SHORT).show();
-          it.remove();
-          saveScheduledNotifications(context, scheduledNotifications);
-          Toast.makeText(context, "saved", Toast.LENGTH_SHORT).show();
 
-        }
-      }
-
-    }
 
     return scheduledNotifications;
   }
@@ -1342,8 +1327,25 @@ public class FlutterLocalNotificationsPlugin
   }
 
   private void pendingNotificationRequests(Result result) {
+    Toast.makeText(applicationContext.getApplicationContext(), "pending", Toast.LENGTH_SHORT).show();
+
     ArrayList<NotificationDetails> scheduledNotifications =
         loadScheduledNotifications(applicationContext);
+    for (Iterator<NotificationDetails> it = scheduledNotifications.iterator(); it.hasNext(); ) {
+      NotificationDetails notificationDetails = it.next();
+      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        DateTimeFormatter formatter
+                = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime localDateTime =
+                LocalDateTime.parse(notificationDetails.scheduledDateTime,formatter);
+        if (localDateTime.compareTo(LocalDateTime.now())==-1) {
+          Toast.makeText(applicationContext.getApplicationContext(), "found false", Toast.LENGTH_SHORT).show();
+          it.remove();
+          cancelNotification(notificationDetails.id,notificationDetails.tag);
+        }
+      }
+
+    }
     List<Map<String, Object>> pendingNotifications = new ArrayList<>();
 
     for (NotificationDetails scheduledNotification : scheduledNotifications) {
@@ -1535,6 +1537,8 @@ public class FlutterLocalNotificationsPlugin
   }
 
   private void cancelNotification(Integer id, String tag) {
+    Toast.makeText(applicationContext.getApplicationContext(), "cancel false", Toast.LENGTH_SHORT).show();
+
     Intent intent = new Intent(applicationContext, ScheduledNotificationReceiver.class);
     PendingIntent pendingIntent = getBroadcastPendingIntent(applicationContext, id, intent);
     AlarmManager alarmManager = getAlarmManager(applicationContext);
