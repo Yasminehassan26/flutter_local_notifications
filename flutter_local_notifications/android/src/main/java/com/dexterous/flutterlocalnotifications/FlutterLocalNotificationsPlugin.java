@@ -1334,10 +1334,10 @@ public class FlutterLocalNotificationsPlugin
     for (Iterator<NotificationDetails> it = scheduledNotifications.iterator(); it.hasNext(); ) {
       NotificationDetails notificationDetails = it.next();
       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-        DateTimeFormatter formatter
-                = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+//        DateTimeFormatter formatter
+//                = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         LocalDateTime localDateTime =
-                LocalDateTime.parse(notificationDetails.scheduledDateTime,formatter);
+                LocalDateTime.parse(notificationDetails.scheduledDateTime);
         if (localDateTime.compareTo(LocalDateTime.now())==-1) {
           Toast.makeText(applicationContext.getApplicationContext(), "canceled "+notificationDetails.id, Toast.LENGTH_SHORT).show();
           it.remove();
