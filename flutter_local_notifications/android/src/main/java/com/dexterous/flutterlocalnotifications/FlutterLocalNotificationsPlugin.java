@@ -1339,7 +1339,7 @@ public class FlutterLocalNotificationsPlugin
         LocalDateTime localDateTime =
                 LocalDateTime.parse(notificationDetails.scheduledDateTime,formatter);
         if (localDateTime.compareTo(LocalDateTime.now())==-1) {
-          Toast.makeText(applicationContext.getApplicationContext(), "found false", Toast.LENGTH_SHORT).show();
+          Toast.makeText(applicationContext.getApplicationContext(), "canceled "+notificationDetails.id, Toast.LENGTH_SHORT).show();
           it.remove();
           cancelNotification(notificationDetails.id,notificationDetails.tag);
         }
