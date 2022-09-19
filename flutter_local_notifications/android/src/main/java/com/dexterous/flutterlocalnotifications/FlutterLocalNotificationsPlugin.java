@@ -1337,7 +1337,7 @@ public class FlutterLocalNotificationsPlugin
         DateTimeFormatter formatter
                 = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         LocalDateTime localDateTime =
-                LocalDateTime.parse(notificationDetails.scheduledDateTime,formatter);
+                LocalDateTime.parse(notificationDetails.scheduledDateTime);
         Toast.makeText(applicationContext.getApplicationContext(), "b "+localDateTime, Toast.LENGTH_SHORT).show();
         Toast.makeText(applicationContext.getApplicationContext(), "n "+LocalDateTime.now().format(formatter), Toast.LENGTH_SHORT).show();
 
